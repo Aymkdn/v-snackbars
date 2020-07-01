@@ -82,7 +82,7 @@ export default {
     }
   },
   created () {
-    if (typeof this.$attrs.top !== undefined && this.$attrs.top !== false) this.topOrBottom='top';
+    if (typeof this.$attrs.top !== "undefined" && this.$attrs.top !== false) this.topOrBottom='top';
     this.setSnackbars();
   }
 }
