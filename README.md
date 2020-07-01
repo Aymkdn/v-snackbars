@@ -33,6 +33,10 @@ this.messages.push("This is a message");
 
 ### Options
 
+#### Snackbar Options
+
+The same [`v-snackbar` options](https://vuetifyjs.com/en/components/snackbars/) should be applicable, like `bottom`, `right`, `left`, `top`, `color`, `timeout`, ….
+
 #### Personalized button
 
 A `close` button is used by default. If you prefer to define your own action button, you can use a ` v-slot:action`.
