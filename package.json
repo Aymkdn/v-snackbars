@@ -1,0 +1,22 @@
+{
+  "name": "v-snackbars",
+  "version": "1.0.0",
+  "description": "Display the v-snackbar (from Vuetify) with a stack display",
+  "main": "v-snackbars.vue",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aymkdn/v-snackbars.git"
+  },
+  "keywords": [
+    "vuetify"
+  ],
+  "author": "aymkdn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aymkdn/v-snackbars/issues"
+  },
+  "homepage": "https://github.com/Aymkdn/v-snackbars#readme"
+}
