@@ -15,6 +15,8 @@ npm install v-snackbars
 
 ## Demo
 
+See it in action: https://codesandbox.io/s/v-snackbars-demo-8xrbr?file=/src/App.vue
+
 ## How to use
 
 It will be very similar to the `v-snackbar` (you can use the same options):
@@ -29,6 +31,10 @@ For example, to display "This is a message", just do the below:
 this.messages.push("This is a message");
 ```
 
+### Options
+
+#### Personalized button
+
 A `close` button is used by default. If you prefer to define your own action button, you can use a ` v-slot:action`.
 For example:
 ```vue
@@ -40,3 +46,12 @@ For example:
 ```
 
 By clicking on `Dismiss`, it will remove the related snackbar.
+
+#### Distance
+
+You can define how much space you want between two snackbars. By default, **55** is used.
+
+For example, if you want more space between each snackbar:
+```vue
+<v-snackbars :messages.sync="messages" timeout="-1" top left :distance="65"></v-snackbars>
+```

@@ -16,7 +16,7 @@
     </css-style>
     <css-style :key="idx" v-for="idx in len">
       .v-snackbars-{{idx}} > .v-snack__wrapper {
-        {{topOrBottom}}:{{ idx*65 }}px;
+        {{topOrBottom}}:{{ idx*distance }}px;
       }
     </css-style>
   </div>
@@ -33,6 +33,10 @@ export default {
     'timeout':{
       type:[Number,String],
       default:5000
+    },
+    'distance':{
+      type:[Number,String],
+      default:55
     }
   },
   data () {
@@ -78,8 +82,7 @@ export default {
     }
   },
   created () {
-    global.debug = this;
-    if (this.$attrs.top) this.topOrBottom='top';
+    if (typeof this.$attrs.top !== undefined && this.$attrs.top !== false) this.topOrBottom='top';
     this.setSnackbars();
   }
 }
