@@ -19,7 +19,6 @@ See it in action: https://codesandbox.io/s/v-snackbars-demo-8xrbr?file=/src/App.
 
 ## How to use
 
-It will be very similar to the `v-snackbar` (you can use the same options):
 ```vue
 <v-snackbars :messages.sync="messages"></v-snackbars>
 ```
@@ -29,6 +28,11 @@ You need to provide a `messages` array. Using a `push` on the array will cause t
 For example, to display _"This is a message"_, just do the below:
 ```javascript
 this.messages.push("This is a message");
+```
+
+You can use the same options as the `v-snackbar`. For example:
+```vue
+<v-snackbars :messages.sync="messages" timeout="10000" bottom left color="red"></v-snackbars>
 ```
 
 ### Options
