@@ -1,6 +1,6 @@
 {
   "name": "v-snackbars",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Display the v-snackbar (from Vuetify) with a stack display",
   "main": "v-snackbars.vue",
   "scripts": {

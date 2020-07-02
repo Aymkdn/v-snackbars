@@ -48,13 +48,19 @@ A `close` button is used by default. If you prefer to define your own action but
 For example:
 ```vue
 <v-snackbars :messages.sync="messages" timeout="-1" color="black" top right>
-  <template v-slot:action="{ close, index }">
-    <v-btn text @click="close(index)">Dismiss</v-btn>
+  <template v-slot:action="{ close, index, message, id }">
+    <v-btn text @click="close(id)">Dismiss</v-btn>
   </template>
 </template>
 ```
 
 By clicking on `Dismiss`, it will remove the related snackbar.
+
+The parameters:
+  - `close`: the function to remove a notification
+  - `index`: the index in the array of notifications/messages
+  - `message`: the current message that is displayed in the notification
+  - `id`: the unique key of the message that is used to close it
 
 #### Distance
 
