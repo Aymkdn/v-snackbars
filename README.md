@@ -32,7 +32,7 @@ this.messages.push("This is a message");
 
 You can use the same options as the `v-snackbar`. For example:
 ```vue
-<v-snackbars :messages.sync="messages" timeout="10000" bottom left color="red"></v-snackbars>
+<v-snackbars :messages.sync="messages" :timeout="10000" bottom left color="red"></v-snackbars>
 ```
 
 ### Options
@@ -47,7 +47,7 @@ A `close` button is used by default. If you prefer to define your own action but
 
 For example:
 ```vue
-<v-snackbars :messages.sync="messages" timeout="-1" color="black" top right>
+<v-snackbars :messages.sync="messages" :timeout="-1" color="black" top right>
   <template v-slot:action="{ close, index, message, id }">
     <v-btn text @click="close(id)">Dismiss</v-btn>
   </template>
