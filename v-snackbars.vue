@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-snackbar v-bind="$attrs" v-model="snackbar.show" :key="snackbar.key" :class="'v-snackbars v-snackbars-'+idx" :timeout="-1" v-for="(snackbar,idx) in snackbars">
+    <v-snackbar v-bind="$attrs" v-model="snackbar.show" :key="snackbar.key" :class="'v-snackbars v-snackbars-'+idx+'-'+identifier" :timeout="-1" v-for="(snackbar,idx) in snackbars">
       {{ snackbar.message }}
       <template v-slot:action>
-        <slot name="action" :close="removeMessage" :index="snackbar.key">
+        <slot name="action" :close="removeMessage" :id="snackbar.key" :index="idx" :message="snackbar.message">
           <v-btn text @click="removeMessage(snackbar.key)">close</v-btn>
         </slot>
       </template>
@@ -15,7 +15,7 @@
       }
     </css-style>
     <css-style :key="idx" v-for="idx in len">
-      .v-snackbars-{{idx}} > .v-snack__wrapper {
+      .v-snackbars.v-snackbars-{{idx}}-{{identifier}} > .v-snack__wrapper {
         {{topOrBottom}}:{{ idx*distance }}px;
       }
     </css-style>
@@ -43,7 +43,8 @@ export default {
     return {
       topOrBottom:'bottom',
       len:0, // we need it to have a css transition
-      snackbars:[] // array of {key, message, show(true)}
+      snackbars:[], // array of {key, message, show(true)}
+      identifier:Date.now()+((Math.random()+"").slice(2))
     }
   },
   components:{
@@ -60,6 +61,15 @@ export default {
   },
   methods:{
     setSnackbars () {
+      // update the text if it changes
+      for (let i=0; i<this.snackbars.length && i<this.messages.length; i++) {
+        // if the text is blank, then remove the notification
+        if (this.messages[i]==="") {
+          this.removeMessage(this.snackbars[i].key)
+          return;
+        }
+        this.snackbars[i].message = this.messages[i];
+      }
       for (let i=this.snackbars.length; i<this.messages.length; i++) {
         let key = i+'-'+Date.now();
         this.snackbars.push({

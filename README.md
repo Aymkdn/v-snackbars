@@ -64,3 +64,19 @@ For example, if you want more space between each snackbar:
 ```vue
 <v-snackbars :messages.sync="messages" :distance="65"></v-snackbars>
 ```
+
+## Interactivity
+
+You can add some layers of interactivity with the messages.
+
+For example, you can change the text by doing:
+```javascript
+this.$set(this.messages, i, "New message to display");
+```
+
+To remove a notification, you'll have to change the text to blank `""`:
+```javascript
+this.$set(this.messages, i, ""); // this item will be removed from "messages" by "v-snackbars"
+```
+
+Check the **"Show Interactivity"** button on the [demo](https://codesandbox.io/s/v-snackbars-demo-8xrbr?file=/src/App.vue).
