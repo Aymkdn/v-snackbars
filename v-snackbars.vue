@@ -25,6 +25,7 @@
 <script>
 export default {
   name:'v-snackbars',
+  inheritAttrs: false,
   props:{
     'messages':{
       type:Array,
