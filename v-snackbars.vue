@@ -28,11 +28,11 @@
     </v-snackbar>
     <css-style :key="idx" v-for="idx in len">
       .v-snackbars.v-snackbars-{{identifier}}-{{idx}} .v-snack__wrapper {
-        transition: {{topOrBottom(idx)}} 500ms;
-        {{topOrBottom(idx)}}: 0;
+      transition: {{topOrBottom(idx)}} 500ms;
+      {{topOrBottom(idx)}}: 0;
       }
       .v-snackbars.v-snackbars-{{identifier}}-{{idx}} > .v-snack__wrapper {
-        {{topOrBottom(idx)}}:{{ idx*distance }}px;
+      {{topOrBottom(idx)}}:{{ indexPosition[idx]*distance }}px;
       }
     </css-style>
   </div>
@@ -78,6 +78,26 @@ export default {
     allMessages() {
       if (this.objects.length > 0) return this.objects.map(o => o.message);
       return this.messages;
+    },
+    indexPosition() {
+      let arr = [];
+      let idx = {
+        topCenter: 0,
+        topLeft: 0,
+        topRight: 0,
+        bottomCenter: 0,
+        bottomLeft: 0,
+        bottomRight: 0
+      };
+      this.snackbars.forEach(o => {
+        if (o.top && !o.left && !o.right) arr.push(idx.topCenter++);
+        if (o.top && o.left) arr.push(idx.topLeft++);
+        if (o.top && o.right) arr.push(idx.topRight++);
+        if (o.bottom && !o.left && !o.right) arr.push(idx.bottomCenter++);
+        if (o.bottom && o.left) arr.push(idx.bottomLeft++);
+        if (o.bottom && o.right) arr.push(idx.bottomRight++);
+      });
+      return arr;
     }
   },
   watch: {
@@ -103,7 +123,11 @@ export default {
     },
     setSnackbars() {
       // update the text if it changes
-      for (let i = 0;i < this.snackbars.length && i < this.allMessages.length; i++) {
+      for (
+        let i = 0;
+        i < this.snackbars.length && i < this.allMessages.length;
+        i++
+      ) {
         // if the text is blank, then remove the notification
         if (this.allMessages[i] === "") {
           this.removeMessage(this.snackbars[i].key);
@@ -113,13 +137,17 @@ export default {
       }
       for (let i = this.snackbars.length; i < this.allMessages.length; i++) {
         let key = i + "-" + Date.now();
+        let top = this.getProp("top", i);
+        let bottom = this.getProp("bottom", i);
+        let left = this.getProp("left", i);
+        let right = this.getProp("right", i);
         this.snackbars.push({
           key: key,
           message: this.allMessages[i],
-          top: this.getProp("top", i),
-          bottom: this.getProp("bottom", i),
-          left: this.getProp("left", i),
-          right: this.getProp("right", i),
+          top: (top===""?true:top),
+          bottom: (bottom===""?true:bottom),
+          left: (left===""?true:left),
+          right: (right===""?true:right),
           color: this.getProp("color", i),
           show: true
         });
@@ -134,7 +162,10 @@ export default {
       let idx = this.snackbars.findIndex(s => s.key === key);
       if (idx > -1) {
         this.snackbars.splice(idx, 1);
-        this.$emit("update:messages", this.allMessages.filter((m, i) => i !== idx));
+        this.$emit(
+          "update:messages",
+          this.allMessages.filter((m, i) => i !== idx)
+        );
         this.$emit("update:objects", this.objects.filter((m, i) => i !== idx));
       }
     }
