@@ -71,6 +71,29 @@ For example, if you want more space between each snackbar:
 <v-snackbars :messages.sync="messages" :distance="65"></v-snackbars>
 ```
 
+## Objects
+
+If you want to customize each snackbar, you can also pass a `objects` instead of `messages`, which will contain the various props (like `message`, `color`, `timeout` or the position).
+
+In the JavaScript code:
+```javascript
+this.objects.push({
+  message:"Success",
+  color:"green",
+  timeout:5000
+})
+this.objects.push({
+  message:"Error",
+  color:"red",
+  timeout:-1
+})
+```
+
+In your Vue template:
+```vue
+<v-snackbars :objects.sync="objects"></v-snackbars>
+```
+
 ## Interactivity
 
 You can add some layers of interactivity with the messages.
