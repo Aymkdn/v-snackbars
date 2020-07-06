@@ -94,6 +94,8 @@ In your Vue template:
 <v-snackbars :objects.sync="objects"></v-snackbars>
 ```
 
+Check the **"Random Toast"** button on the [demo](https://codesandbox.io/s/v-snackbars-demo-8xrbr?file=/src/App.vue).
+
 ## Interactivity
 
 You can add some layers of interactivity with the messages.
