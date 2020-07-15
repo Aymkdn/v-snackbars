@@ -22,7 +22,7 @@
           :index="idx"
           :message="snackbar.message"
         >
-          <v-btn text @click="removeMessage(snackbar.key)">close</v-btn>
+          <v-btn text @click="removeMessage(snackbar.key)">{{ closeText }}</v-btn>
         </slot>
       </template>
     </v-snackbar>
@@ -58,6 +58,10 @@ export default {
     objects: {
       type: Array,
       default: () => []
+    },
+    closeText: {
+      type: String,
+      default: 'close'
     }
   },
   data() {
