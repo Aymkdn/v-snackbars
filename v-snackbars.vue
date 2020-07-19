@@ -141,14 +141,20 @@ export default {
         let bottom = this.getProp("bottom", i);
         let left = this.getProp("left", i);
         let right = this.getProp("right", i);
+        top = (top===""?true:top);
+        bottom = (bottom===""?true:bottom);
+        left = (left===""?true:left);
+        right = (right===""?true:right);
+        // by default, it will be at the bottom
+        if (!bottom && !top) bottom=true;
         this.snackbars.push({
           key: key,
           message: this.allMessages[i],
-          top: (top===""?true:top),
-          bottom: (bottom===""?true:bottom),
-          left: (left===""?true:left),
-          right: (right===""?true:right),
-          color: this.getProp("color", i),
+          top: top,
+          bottom: bottom,
+          left: left,
+          right: right,
+          color: this.getProp("color", i) || "black",
           show: true
         });
         let timeout = this.getProp("timeout", i);
