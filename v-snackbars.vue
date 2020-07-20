@@ -27,12 +27,12 @@
       </template>
     </v-snackbar>
     <css-style :key="idx" v-for="idx in len">
-      .v-snackbars.v-snackbars-{{identifier}}-{{idx}} .v-snack__wrapper {
-      transition: {{topOrBottom(idx)}} 500ms;
-      {{topOrBottom(idx)}}: 0;
+      .v-snackbars.v-snackbars-{{identifier}}-{{idx-1}} .v-snack__wrapper {
+      transition: {{topOrBottom(idx-1)}} 500ms;
+      {{topOrBottom(idx-1)}}: 0;
       }
-      .v-snackbars.v-snackbars-{{identifier}}-{{idx}} > .v-snack__wrapper {
-      {{topOrBottom(idx)}}:{{ indexPosition[idx]*distance }}px;
+      .v-snackbars.v-snackbars-{{identifier}}-{{idx-1}} > .v-snack__wrapper {
+      {{topOrBottom(idx-1)}}:{{ indexPosition[idx-1]*distance }}px;
       }
     </css-style>
   </div>
@@ -113,13 +113,14 @@ export default {
   },
   methods: {
     getProp(prop, i) {
-      if (typeof this.$attrs[prop] !== "undefined") return this.$attrs[prop];
-      if (this.objects.length > i) return this.objects[i][prop];
-      if (typeof this[prop] !== "undefined") return this[prop];
-      return false;
+      if (this.objects.length > i && typeof this.objects[i][prop] !== 'undefined')
+        return this.objects[i][prop];
+      if (typeof this.$attrs[prop] !== 'undefined') return this.$attrs[prop];
+      if (typeof this[prop] !== 'undefined') return this[prop];
+      return undefined;
     },
     topOrBottom(i) {
-      return this.getProp("top", i) === true ? "top" : "bottom";
+      return typeof this.getProp('top', i) !== 'undefined' ? 'top' : 'bottom';
     },
     setSnackbars() {
       // update the text if it changes
