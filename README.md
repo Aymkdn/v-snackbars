@@ -19,6 +19,16 @@ See it in action: https://codesandbox.io/s/v-snackbars-demo-8xrbr?file=/src/App.
 
 ## How to use
 
+```js
+import VSnackbars from "v-snackbars"
+export default {
+  components:{
+    "v-snackbars": VSnackbars
+  },
+  […]
+}
+```
+
 ```vue
 <v-snackbars :messages.sync="messages"></v-snackbars>
 ```
