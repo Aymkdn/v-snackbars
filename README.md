@@ -83,7 +83,7 @@ For example, if you want more space between each snackbar:
 
 ## Objects
 
-If you want to customize each snackbar, you can also pass a `objects` instead of `messages`, which will contain the various props (like `message`, `color`, `timeout` or the position).
+If you want to customize each snackbar, you can also pass a `objects` instead of `messages`, which will contain the various props (like `message`, `color`, `timeout`, `transition` or the position).
 
 In the JavaScript code:
 ```javascript
@@ -115,9 +115,9 @@ For example, you can change the text by doing:
 this.$set(this.messages, i, "New message to display");
 ```
 
-To remove a notification, you'll have to change the text to blank `""`:
+To remove a notification, you'll have to use `splice`:
 ```javascript
-this.$set(this.messages, i, ""); // this item will be removed from "messages" by "v-snackbars"
+this.messages.splice(i, 1);
 ```
 
 Check the **"Show Interactivity"** button on the [demo](https://codesandbox.io/s/v-snackbars-demo-8xrbr?file=/src/App.vue).
