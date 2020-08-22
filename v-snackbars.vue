@@ -19,7 +19,7 @@
       <template v-slot:action>
         <slot
           name="action"
-          :close="key => removeMessage(key, true)"
+          :close="() => removeMessage(snackbar.key, true)"
           :id="snackbar.key"
           :index="idx"
           :message="snackbar.message"

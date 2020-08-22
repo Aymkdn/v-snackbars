@@ -59,7 +59,7 @@ For example:
 ```vue
 <v-snackbars :messages.sync="messages" :timeout="-1" color="black" top right>
   <template v-slot:action="{ close, index, message, id }">
-    <v-btn text @click="close(id)">Dismiss</v-btn>
+    <v-btn text @click="close()">Dismiss</v-btn>
   </template>
 </template>
 ```
@@ -70,7 +70,7 @@ The parameters:
   - `close`: the function to remove a notification
   - `index`: the index in the array of notifications/messages
   - `message`: the current message that is displayed in the notification
-  - `id`: the unique key of the message that is used to close it
+  - `id`: the unique key/id of the message
 
 #### Distance
 
