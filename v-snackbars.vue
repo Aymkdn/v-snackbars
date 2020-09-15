@@ -38,7 +38,7 @@
       {{topOrBottom[key]}}: 0;
       }
       .v-snackbars.v-snackbars-{{identifier}}-{{key}} > .v-snack__wrapper {
-      {{topOrBottom[key]}}:{{ indexPosition[key]*distance }}px;
+      {{topOrBottom[key]}}:{{ indexPosition[key]* (getDistance(identifier + '-' + key) + 7) }}px;
       }
     </css-style>
   </div>
@@ -127,6 +127,15 @@ export default {
     }
   },
   methods: {
+    getDistance(key) {
+      var snackbar = document.getElementsByClassName('v-snackbars-' + key)[0];
+
+      if (snackbar === undefined) {
+        return this.distance;
+      }
+
+      return snackbar.getElementsByClassName('v-snack__wrapper')[0].clientHeight;
+    },
     getProp(prop, i) {
       if (this.objects.length > i && typeof this.objects[i][prop] !== 'undefined')
         return this.objects[i][prop];
