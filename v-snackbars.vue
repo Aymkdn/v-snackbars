@@ -15,7 +15,11 @@
       :timeout="-1"
       v-for="(snackbar,idx) in snackbars"
     >
-      {{ snackbar.message }}
+      <template v-slot:default>
+        <slot :message="snackbar.message">
+          {{ snackbar.message }}
+        </slot>
+      </template>
       <template v-slot:action>
         <slot
           name="action"
