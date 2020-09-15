@@ -61,7 +61,7 @@ For example:
   <template v-slot:action="{ close, index, message, id }">
     <v-btn text @click="close()">Dismiss</v-btn>
   </template>
-</template>
+</v-snackbars>
 ```
 
 By clicking on `Dismiss`, it will remove the related snackbar.
