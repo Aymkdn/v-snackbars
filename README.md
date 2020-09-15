@@ -51,6 +51,22 @@ You can use the same options as the `v-snackbar`. For example:
 
 The same [`v-snackbar` options](https://vuetifyjs.com/en/components/snackbars/) should be applicable, like `bottom`, `right`, `left`, `top`, `color`, `timeout`, ….
 
+### Personalized content
+
+You can use `v-slot:default` to customize the content of the snackbar.
+
+For example:
+```vue
+<v-snackbars :messages.sync="messages" :timeout="-1" color="black" top right>
+  <template v-slot:default="{ message }">
+    <h3 class="mb-2">Header</h3>
+    {{ message }}
+  </template>
+</v-snackbars>
+```
+The parameters:
+  - `message`: the current message that is displayed in the notification
+  
 #### Personalized button
 
 A `close` button is used by default. If you prefer to define your own action button, you can use a ` v-slot:action`.
