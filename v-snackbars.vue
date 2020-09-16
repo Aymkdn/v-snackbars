@@ -15,7 +15,11 @@
       :timeout="-1"
       v-for="(snackbar,idx) in snackbars"
     >
-      {{ snackbar.message }}
+      <template v-slot:default>
+        <slot :message="snackbar.message">
+          {{ snackbar.message }}
+        </slot>
+      </template>
       <template v-slot:action>
         <slot
           name="action"
@@ -34,7 +38,7 @@
       {{topOrBottom[key]}}: 0;
       }
       .v-snackbars.v-snackbars-{{identifier}}-{{key}} > .v-snack__wrapper {
-      {{topOrBottom[key]}}:{{ indexPosition[key]*distance }}px;
+      {{topOrBottom[key]}}:{{ indexPosition[key]*distances[key] }}px;
       }
     </css-style>
   </div>
@@ -67,6 +71,7 @@ export default {
       len: 0, // we need it to have a css transition
       snackbars: [], // array of {key, message, show(true)}
       keys: [], // array of 'keys'
+      distances: {}, // height of each snackbar to correctly position them
       identifier: Date.now() + (Math.random() + "").slice(2) // to avoid issues when several v-snackbars on the page
     };
   },
@@ -120,6 +125,28 @@ export default {
         this.eventify(this.objects);
       },
       deep: true
+    },
+    snackbars() {
+      // retrieve the height for each snackbar
+      this.$nextTick(function() {
+        let ret = {};
+        let len = this.snackbars.length;
+        this.snackbars.forEach((o, idx) => {
+          let distance = this.distance;
+          if (idx + 1 < len) {
+            let nextKey = this.snackbars[idx + 1].key;
+            let elem = document.querySelector(".v-snackbars-" + this.identifier + "-" + o.key);
+            if (elem) {
+              let wrapper = elem.querySelector(".v-snack__wrapper");
+              if (wrapper) {
+                distance = wrapper.clientHeight + 7;
+              }
+            }
+            ret[nextKey] = distance;
+          }
+        });
+        this.distances = ret;
+      });
     }
   },
   methods: {

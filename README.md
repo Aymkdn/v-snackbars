@@ -51,6 +51,23 @@ You can use the same options as the `v-snackbar`. For example:
 
 The same [`v-snackbar` options](https://vuetifyjs.com/en/components/snackbars/) should be applicable, like `bottom`, `right`, `left`, `top`, `color`, `timeout`, ….
 
+### Personalized content
+
+You can use `v-slot:default` to customize the content of the snackbar.
+
+For example:
+```vue
+<v-snackbars :messages.sync="messages" :timeout="-1" color="black" top right>
+  <template v-slot:default="{ message }">
+    <h3 class="mb-2">Header</h3>
+    {{ message }}
+  </template>
+</v-snackbars>
+```
+
+The parameter:
+  - `message`: the current message that is displayed in the notification
+
 #### Personalized button
 
 A `close` button is used by default. If you prefer to define your own action button, you can use a ` v-slot:action`.
@@ -71,15 +88,6 @@ The parameters:
   - `index`: the index in the array of notifications/messages
   - `message`: the current message that is displayed in the notification
   - `id`: the unique key/id of the message
-
-#### Distance
-
-You can define how much space you want between two snackbars. By default, **55** is used.
-
-For example, if you want more space between each snackbar:
-```vue
-<v-snackbars :messages.sync="messages" :distance="65"></v-snackbars>
-```
 
 ## Objects
 
