@@ -38,7 +38,7 @@
       {{topOrBottom[key]}}: 0;
       }
       .v-snackbars.v-snackbars-{{identifier}}-{{key}} > .v-snack__wrapper {
-      {{topOrBottom[key]}}:{{ indexPosition[key]*distances[key] }}px;
+      {{topOrBottom[key]}}:{{ calcDistance(key) }}px;
       }
     </css-style>
   </div>
@@ -150,6 +150,17 @@ export default {
     }
   },
   methods: {
+    calcDistance(key) {
+      let distance = 0;
+      if (typeof this.distances[key] !== 'undefined') {
+        for (let idx in this.indexPosition) {
+          if (typeof this.distances[idx] === 'undefined') continue;
+          distance += this.distances[idx];
+          if (idx == key) break;
+        }
+      }
+      return distance;
+    },
     getProp(prop, i) {
       if (this.objects.length > i && typeof this.objects[i][prop] !== 'undefined')
         return this.objects[i][prop];
