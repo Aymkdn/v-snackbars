@@ -38,7 +38,7 @@
       {{topOrBottom[key]}}: 0;
       }
       .v-snackbars.v-snackbars-{{identifier}}-{{key}} > .v-snack__wrapper {
-      {{topOrBottom[key]}}:{{ indexPosition[key]*distances[key] }}px;
+      {{topOrBottom[key]}}:{{ calcDistance(key) }}px;
       }
     </css-style>
   </div>
@@ -71,7 +71,7 @@ export default {
       len: 0, // we need it to have a css transition
       snackbars: [], // array of {key, message, show(true)}
       keys: [], // array of 'keys'
-      distances: {}, // height of each snackbar to correctly position them
+      heights: {}, // height of each snackbar to correctly position them
       identifier: Date.now() + (Math.random() + "").slice(2) // to avoid issues when several v-snackbars on the page
     };
   },
@@ -130,22 +130,18 @@ export default {
       // retrieve the height for each snackbar
       this.$nextTick(function() {
         let ret = {};
-        let len = this.snackbars.length;
         this.snackbars.forEach((o, idx) => {
-          let distance = this.distance;
-          if (idx + 1 < len) {
-            let nextKey = this.snackbars[idx + 1].key;
-            let elem = document.querySelector(".v-snackbars-" + this.identifier + "-" + o.key);
-            if (elem) {
-              let wrapper = elem.querySelector(".v-snack__wrapper");
-              if (wrapper) {
-                distance = wrapper.clientHeight + 7;
-              }
+          let height = this.distance;
+          let elem = document.querySelector(".v-snackbars-" + this.identifier + "-" + o.key);
+          if (elem) {
+            let wrapper = elem.querySelector(".v-snack__wrapper");
+            if (wrapper) {
+              height = wrapper.clientHeight + 7;
             }
-            ret[nextKey] = distance;
           }
+          ret[o.key] = height;
         });
-        this.distances = ret;
+        this.heights = ret;
       });
     }
   },
@@ -220,6 +216,27 @@ export default {
           removeSnackbar();
         }, { once: true });
       }
+    },
+    calcDistance(key) {
+      // calculate the position in the stack for the snackbar
+      let distance = 0;
+      let snackbar = this.snackbars.find((s) => s.key === key);
+      if (!snackbar) return 0;
+      for (let i = 0; i < this.snackbars.length; i++) {
+        // we add all the heights for each visible snackbar in the same corner
+        if (this.snackbars[i].key === key) break;
+        if (
+          this.snackbars[i].show &&
+          this.snackbars[i].bottom === snackbar.bottom &&
+          this.snackbars[i].top === snackbar.top &&
+          this.snackbars[i].right === snackbar.right &&
+          this.snackbars[i].left === snackbar.left
+        ) {
+          distance += this.heights[this.snackbars[i].key] || 0;
+        }
+      }
+
+      return distance;
     },
     eventify (arr) {
       // detect changes on 'messages' and 'objects'
