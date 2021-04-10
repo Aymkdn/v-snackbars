@@ -210,6 +210,10 @@ export default {
         }
         // use a timeout to ensure the 'transitionend' will be triggerred
         let timeout = setTimeout(removeSnackbar, 600);
+        
+        // skip wating if key does not exists
+        if(!this.$refs['snackbar-'+key]) return
+
         // wait the end of the animation
         this.$refs['snackbar-'+key][0].$el.addEventListener('transitionend', () => {
           clearTimeout(timeout);
