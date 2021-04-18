@@ -157,7 +157,8 @@ export default {
           right: right,
           color: this.getProp("color", i) || "black",
           transition: this.getProp("transition", i) || (right ? 'slide-x-reverse-transition' : 'slide-x-transition'),
-          show: false
+          show: false,
+          timeout: null,
         });
         this.keys.push(key);
         this.$nextTick(function() {
@@ -179,7 +180,10 @@ export default {
             // define the timeout
             let timeout = this.getProp("timeout", i);
             if (timeout > 0) {
-              setTimeout(() => this.removeMessage(key, true), timeout * 1);
+              this.snackbars[i].timeout = setTimeout(
+                () => this.removeMessage(key, true),
+                timeout * 1
+              )
             }
           });
         })
@@ -270,7 +274,28 @@ export default {
           else if (elemsLen > 0) {
             // or we set a value on an element using this.$set, so we update the message
             for (let i=2; i<elemsLen+2; i++) {
-              if (_this.snackbars[idx]) _this.$set(_this.snackbars[idx], 'message', args[i]);
+              if (
+                typeof args[i] === 'string' ||
+                typeof args[i] === 'objects'
+              ) {
+                _this.$set(_this.snackbars[idx], 'message', args[i])
+              } else {
+                for (const prop in args[i]) {
+                  if (prop === 'timeout') {
+                    const timeout = args[i][prop] * 1
+                    // If there's an existing timeout, clear it before setting the new timeout
+                    if (_this.snackbars[idx].timeout) {
+                      clearTimeout(_this.snackbars[idx].timeout)
+                    }
+                    const key = _this.snackbars[idx].key
+                    _this.snackbars[idx].timeout = setTimeout(() => {
+                      _this.removeMessage(key, true)
+                    }, timeout)
+                  } else {
+                    _this.$set(_this.snackbars[idx], prop, args[i][prop])
+                  }
+                }
+              }
               idx++;
             }
           }
