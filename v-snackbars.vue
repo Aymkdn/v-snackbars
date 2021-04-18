@@ -125,24 +125,6 @@ export default {
         this.eventify(this.objects);
       },
       deep: true
-    },
-    snackbars() {
-      // retrieve the height for each snackbar
-      this.$nextTick(function() {
-        let ret = {};
-        this.snackbars.forEach((o, idx) => {
-          let height = this.distance;
-          let elem = document.querySelector(".v-snackbars-" + this.identifier + "-" + o.key);
-          if (elem) {
-            let wrapper = elem.querySelector(".v-snack__wrapper");
-            if (wrapper) {
-              height = wrapper.clientHeight + 7;
-            }
-          }
-          ret[o.key] = height;
-        });
-        this.heights = ret;
-      });
     }
   },
   methods: {
@@ -180,10 +162,26 @@ export default {
         this.keys.push(key);
         this.$nextTick(function() {
           this.snackbars[i].show=true; // to see the come-in animation
-          let timeout = this.getProp("timeout", i);
-          if (timeout > 0) {
-            setTimeout(() => this.removeMessage(key, true), timeout * 1);
-          }
+
+          this.$nextTick(function () {
+            // find the correct height
+            let height = this.distance;
+            let elem = document.querySelector(".v-snackbars-" + this.identifier + "-" + key);
+
+            if (elem) {
+              let wrapper = elem.querySelector(".v-snack__wrapper");
+              if (wrapper) {
+                height = wrapper.clientHeight + 7;
+              }
+            }
+            this.$set(this.heights, key, height);
+
+            // define the timeout
+            let timeout = this.getProp("timeout", i);
+            if (timeout > 0) {
+              setTimeout(() => this.removeMessage(key, true), timeout * 1);
+            }
+          });
         })
       }
     },
