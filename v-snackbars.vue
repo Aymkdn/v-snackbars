@@ -193,6 +193,9 @@ export default {
         let removeSnackbar = () => {
           let idx = this.snackbars.findIndex(s => s.key === key);
           this.snackbars.splice(idx, 1);
+          // dipose all
+          this.keys = this.keys.filter(k => k !== key);
+          delete this.heights[key];
           // only send back the changes if it happens from this component
           if (fromComponent) {
             this.$emit(
