@@ -69,7 +69,7 @@ export default {
   data() {
     return {
       len: 0, // we need it to have a css transition
-      snackbars: [], // array of {key, message, show(true)}
+      snackbars: [], // array of {key, message, top, right, left, bottom, color, transition, timeout, show}
       keys: [], // array of 'keys'
       heights: {}, // height of each snackbar to correctly position them
       identifier: Date.now() + (Math.random() + "").slice(2) // to avoid issues when several v-snackbars on the page
@@ -156,6 +156,7 @@ export default {
           left: left,
           right: right,
           color: this.getProp("color", i) || "black",
+          timeout:null,
           transition: this.getProp("transition", i) || (right ? 'slide-x-reverse-transition' : 'slide-x-transition'),
           show: false
         });
@@ -179,7 +180,7 @@ export default {
             // define the timeout
             let timeout = this.getProp("timeout", i);
             if (timeout > 0) {
-              setTimeout(() => this.removeMessage(key, true), timeout * 1);
+              this.snackbars[i].timeout = setTimeout(() => this.removeMessage(key, true), timeout * 1);
             }
           });
         })
@@ -205,6 +206,9 @@ export default {
             this.$emit("update:objects", this.objects.filter((m, i) => i !== idx));
           }
         }
+        // if a timeout on the snackbar, clear it
+        if (this.snackbars[idx].timeout) clearTimeout(this.snackbars[idx].timeout);
+
         // use a timeout to ensure the 'transitionend' will be triggerred
         let timeout = setTimeout(removeSnackbar, 600);
         
@@ -273,9 +277,31 @@ export default {
           else if (elemsLen > 0) {
             // or we set a value on an element using this.$set, so we update the message
             for (let i=2; i<elemsLen+2; i++) {
-              if (_this.snackbars[idx]) _this.$set(_this.snackbars[idx], 'message', args[i]);
-              idx++;
+              if (typeof args[i] === 'string') {
+                _this.$set(_this.snackbars[idx], 'message', args[i])
+              } else if (typeof args[i] === 'object') {
+                for (let prop in args[i]) {
+                  if (prop === 'timeout') {
+                    let timeout = args[i][prop] * 1;
+                    // if there's an existing timeout, clear it before setting the new timeout
+                    if (_this.snackbars[idx].timeout) {
+                      clearTimeout(_this.snackbars[idx].timeout);
+                      _this.snackbars[idx].timeout=null;
+                    }
+                    if (timeout > -1) {
+                      let key = _this.snackbars[idx].key;
+                      _this.snackbars[idx].timeout = setTimeout(() => {
+                        _this.removeMessage(key, true);
+                      }, timeout);
+                    }
+                  } else {
+                    // update the property
+                    _this.$set(_this.snackbars[idx], prop, args[i][prop]);
+                  }
+                }
+              }
             }
+            idx++;
           }
         };
       };
