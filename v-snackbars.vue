@@ -10,7 +10,7 @@
       :right="snackbar.right"
       :color="snackbar.color"
       :key="snackbar.key"
-      :ref="'snackbar-'+snackbar.key"
+      :ref="'v-snackbars-'+identifier"
       :class="'v-snackbars v-snackbars-'+identifier+'-'+snackbar.key"
       :timeout="-1"
       v-for="(snackbar,idx) in snackbars"
@@ -212,11 +212,11 @@ export default {
         // use a timeout to ensure the 'transitionend' will be triggerred
         let timeout = setTimeout(removeSnackbar, 600);
         
-        // skip wating if key does not exists
-        if(!this.$refs['snackbar-'+key]) return
+        // skip waiting if key does not exist
+        if(!this.$refs['v-snackbars-'+this.identifier][idx]) return
 
         // wait the end of the animation
-        this.$refs['snackbar-'+key][0].$el.addEventListener('transitionend', () => {
+        this.$refs['v-snackbars-'+this.identifier][idx].$el.addEventListener('transitionend', () => {
           clearTimeout(timeout);
           removeSnackbar();
         }, { once: true });
