@@ -213,10 +213,11 @@ export default {
         let timeout = setTimeout(removeSnackbar, 600);
         
         // skip waiting if key does not exist
-        if(!this.$refs['v-snackbars-'+this.identifier][idx]) return
+        let ref = this.$refs['v-snackbars-'+this.identifier];
+        if(!ref || !ref[idx]) return;
 
         // wait the end of the animation
-        this.$refs['v-snackbars-'+this.identifier][idx].$el.addEventListener('transitionend', () => {
+        ref[idx].$el.addEventListener('transitionend', () => {
           clearTimeout(timeout);
           removeSnackbar();
         }, { once: true });
