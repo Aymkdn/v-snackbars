@@ -157,7 +157,7 @@ export default {
           left: left,
           right: right,
           color: this.getProp("color", i) || "black",
-          "content-class": this.getProp("content-class", i) || "black",
+          "content-class": this.getProp("content-class", i) || "",
           timeout: null,
           transition:
             this.getProp("transition", i) ||
