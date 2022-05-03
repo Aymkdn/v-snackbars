@@ -9,7 +9,7 @@
       :left="snackbar.left"
       :right="snackbar.right"
       :color="snackbar.color"
-      :content-class="snackbar['content-class']"
+      :content-class="snackbar.contentClass"
       :key="snackbar.key"
       :ref="'v-snackbars-' + identifier"
       :class="'v-snackbars v-snackbars-' + identifier + '-' + snackbar.key"
@@ -157,7 +157,7 @@ export default {
           left: left,
           right: right,
           color: this.getProp("color", i) || "black",
-          "content-class": this.getProp("content-class", i) || "",
+          contentClass: this.getProp("content-class", i) || this.getProp("contentClass", i) || "",
           timeout: null,
           transition:
             this.getProp("transition", i) ||

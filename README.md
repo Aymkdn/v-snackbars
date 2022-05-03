@@ -91,7 +91,7 @@ The parameters:
 
 ## Objects
 
-If you want to customize each snackbar, you can also pass a `objects` instead of `messages`, which will contain the various props (like `message`, `color`, `timeout`, `transition` or the position).
+If you want to customize each snackbar, you can also pass a `objects` instead of `messages`, which will contain the various props (like `message`, `color`, `timeout`, `transition`, `contentClass` or the position).
 
 In the JavaScript code:
 ```javascript
