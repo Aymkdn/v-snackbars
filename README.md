@@ -58,7 +58,7 @@ You can use `v-slot:default` to customize the content of the snackbar.
 For example:
 ```vue
 <v-snackbars :messages.sync="messages" :timeout="-1" color="black" top right>
-  <template v-slot:default="{ message }">
+  <template v-slot:default="{ message, id, index }">
     <h3 class="mb-2">Header</h3>
     {{ message }}
   </template>
@@ -67,6 +67,8 @@ For example:
 
 The parameter:
   - `message`: the current message that is displayed in the notification
+  - `id`: the unique key/id of the message
+  - `index`: the index in the array of notifications/messages
 
 #### Personalized button
 

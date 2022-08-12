@@ -17,7 +17,11 @@
       v-for="(snackbar, idx) in snackbars"
     >
       <template v-slot:default>
-        <slot :message="snackbar.message">
+        <slot 
+          :message="snackbar.message"
+          :id="snackbar.key"
+          :index="idx"
+        >
           {{ snackbar.message }}
         </slot>
       </template>
